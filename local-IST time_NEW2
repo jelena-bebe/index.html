@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Display and Convert Time</h2>
+
+<!-- Button to display current date and time in local time -->
+<button type="button" onclick="displayLocalTime()">Show Local Time</button>
+<p id="localTime"></p>
+
+<!-- Button to display current date and time in Indian Standard Time (IST) -->
+<button type="button" onclick="displayIndianTime()">Show Indian Time</button>
+<p id="indianTime"></p>
+
+<!-- Input field to enter local time -->
+<h3>Convert Local Time to Indian Time</h3>
+<label for="localInput">Enter Local Time (HH:MM):</label>
+<input type="time" id="localInput">
+<button type="button" onclick="convertToIndianTime()">Convert to IST</button>
+<p id="convertedTime"></p>
+
+<script>
+function displayLocalTime() {
+    // Get and display current local time
+    let currentDate = new Date();
+    document.getElementById("localTime").innerHTML = "Local Time: " + currentDate.toLocaleString();
+}
+
+function displayIndianTime() {
+    // Get and display current IST time
+    let currentDate = new Date();
+    let options = { timeZone: 'Asia/Kolkata', timeZoneName: 'short' };
+    let indianDate = currentDate.toLocaleString('en-IN', options);
+    document.getElementById("indianTime").innerHTML = "Indian Time: " + indianDate;
+}
+
+function convertToIndianTime() {
+    // Get user input for local time
+    let inputTime = document.getElementById("localInput").value;
+    if (inputTime) {
+        let currentDate = new Date();
+        let [hours, minutes] = inputTime.split(":");
+        
+        // Set local time based on user input
+        currentDate.setHours(hours);
+        currentDate.setMinutes(minutes);
+
+        // Convert local time to IST
+        let options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false };
+        let indianTime = new Intl.DateTimeFormat('en-IN', options).format(currentDate);
+
+        // Display the converted time
+        document.getElementById("convertedTime").innerHTML = "Indian Time for entered local time: " + indianTime;
+    } else {
+        document.getElementById("convertedTime").innerHTML = "Please enter a valid local time.";
+    }
+}
+</script>
+
+</body>
+</html>
